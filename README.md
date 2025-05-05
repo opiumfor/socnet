@@ -31,6 +31,7 @@ curl -X POST http://localhost:8787/user/register \
      -d '{
             "first_name": "Сержант",
             "second_name": "Махоуни",
+            "gender": "male"
             "birthdate": "1970-01-01",
             "biography": "Не был, не состоял, не привлекался",
             "city": "х. Гуляй-Борисовка",
@@ -65,6 +66,7 @@ curl -X GET http://localhost:8787/user/get/1
     "id": "1",
     "first_name": "Сержант",
     "second_name": "Махоуни",
+    "gender": "male",
     "birthdate": "1970-01-01",
     "biography": "Не был, не состоял, не привлекался",
     "city": "х. Гуляй-Борисовка"
