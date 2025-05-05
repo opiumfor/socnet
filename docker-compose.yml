@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:17
+    read_only: true
+    cap_drop:
+      - "ALL"
+    cap_add:
+      - "CHOWN"
+      - "DAC_READ_SEARCH"
+      - "FOWNER"
+      - "SETGID"
+      - "SETUID"
+    tmpfs:
+      - /var/run/postgresql/
+    restart: always
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=socnet
+      - POSTGRES_USER=socnet
+      - POSTGRES_PASSWORD=socnet
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U socnet -d socnet" ]
+      interval: 10s
+      timeout: 5s
+      retries: 1
+    volumes:
+      - socnet-db1:/var/lib/postgresql/data
+    ports:
+      - "5444:5432"
+  migration:
+    image: migrate/migrate:4
+    read_only: true
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 1
+    command: [ "-source", "file:///migrations/", "-database", "postgres://socnet:socnet@db:5432/socnet?sslmode=disable", "up" ]
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=socnet
+      - POSTGRES_USER=socnet
+      - POSTGRES_PASSWORD=socnet
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      - db
+    links:
+      - db
+
+volumes:
+  socnet-db1:
+    driver: local

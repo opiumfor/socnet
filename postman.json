@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "unique-id",
-    "name": "Social Network API",
+    "name": "OTUS Highload Architect API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -17,14 +17,15 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"id\": \"user_id\",\n  \"password\": \"password\"\n}"
+          "raw": "{\n  \"id\": \"user_id\",\n  \"password\": \"Секретная строка\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/login",
           "host": ["{{base_url}}"],
           "path": ["login"]
         }
-      }
+      },
+      "response": []
     },
     {
       "name": "Register User",
@@ -38,14 +39,260 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"1990-01-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\",\n  \"password\": \"password\"\n}"
+          "raw": "{\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"2017-02-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\",\n  \"password\": \"Секретная строка\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/user/register",
           "host": ["{{base_url}}"],
           "path": ["user", "register"]
         }
-      }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User Profile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/user/get/{{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["user", "get", "{{user_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/user/search?first_name=Конст&last_name=Оси",
+          "host": ["{{base_url}}"],
+          "path": ["user", "search"],
+          "query": [
+            {
+              "key": "first_name",
+              "value": "Конст"
+            },
+            {
+              "key": "last_name",
+              "value": "Оси"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Friend",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/friend/set/{{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["friend", "set", "{{user_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Friend",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/friend/delete/{{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["friend", "delete", "{{user_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Post",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/post/create",
+          "host": ["{{base_url}}"],
+          "path": ["post", "create"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"{{post_id}}\",\n  \"text\": \"Updated post text\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/post/update",
+          "host": ["{{base_url}}"],
+          "path": ["post", "update"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Post",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/post/delete/{{post_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["post", "delete", "{{post_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Post",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/post/get/{{post_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["post", "get", "{{post_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Feed",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/post/feed?offset=0&limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["post", "feed"],
+          "query": [
+            {
+              "key": "offset",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Send Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Привет, как дела?\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/dialog/{{user_id}}/send",
+          "host": ["{{base_url}}"],
+          "path": ["dialog", "{{user_id}}", "send"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dialog",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/dialog/{{user_id}}/list",
+          "host": ["{{base_url}}"],
+          "path": ["dialog", "{{user_id}}", "list"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "auth_token",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": ""
+    },
+    {
+      "key": "post_id",
+      "value": ""
     }
   ]
 }
