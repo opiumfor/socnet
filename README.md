@@ -33,7 +33,8 @@ curl -X POST http://localhost:8787/user/register \
             "second_name": "Махоуни",
             "birthdate": "1970-01-01",
             "biography": "Не был, не состоял, не привлекался",
-            "city": "х. Гуляй-Борисовка"
+            "city": "х. Гуляй-Борисовка",
+            "password": "Qwerty123"
          }'
 ```
 - **Ответ** (идентификатор нового пользователя):
@@ -45,7 +46,7 @@ curl -X POST http://localhost:8787/user/register \
 ```bash
 curl -X POST http://localhost:8787/login \
      -H "Content-Type: application/json" \
-     -d '{"id": "13", "password": "Секретная строка"}'
+     -d '{"id": "13", "password": "Qwerty123"}'
 ```
 - **Ответ** (JWT-токен):
   ```json
