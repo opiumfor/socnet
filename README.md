@@ -29,17 +29,16 @@
 curl -X POST http://localhost:8787/user/register \
      -H "Content-Type: application/json" \
      -d '{
-           "first_name": "Имя",
-           "second_name": "Фамилия",
-           "birthdate": "2017-02-01",
-           "biography": "Хобби, интересы и т.п.",
-           "city": "Москва",
-           "password": "Секретная строка"
+            "first_name": "Сержант",
+            "second_name": "Махоуни",
+            "birthdate": "1970-01-01",
+            "biography": "Не был, не состоял, не привлекался",
+            "city": "х. Гуляй-Борисовка"
          }'
 ```
 - **Ответ** (идентификатор нового пользователя):
   ```json
-  {"message":"User registered successfully","user_id":13}
+  {"message":"User registered successfully","user_id":1}
   ```
 
 #### 2. **Авторизация пользователя**
@@ -57,7 +56,7 @@ curl -X POST http://localhost:8787/login \
 
 #### 3. **Получение анкеты пользователя**
 ```bash
-curl -X GET http://localhost:8787/user/get/13
+curl -X GET http://localhost:8787/user/get/1
 ```
 - **Ответ**:
   ```json
