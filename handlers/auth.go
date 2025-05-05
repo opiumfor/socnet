@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"errors"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
@@ -31,7 +32,7 @@ func Login(db *sql.DB) gin.HandlerFunc {
 		// Получение хэшированного пароля из базы данных
 		var storedPassword string
 		err := db.QueryRow("SELECT password FROM users WHERE id = $1", req.ID).Scan(&storedPassword)
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 			return
 		} else if err != nil {
