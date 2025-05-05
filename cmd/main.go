@@ -2,8 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -11,8 +13,20 @@ import (
 )
 
 func main() {
+	// Чтение переменных окружения для подключения к базе данных
+	dbHost := getEnv("DB_HOST", "postgres")
+	dbPort := getEnv("DB_PORT", "5432")
+	dbUser := getEnv("DB_USER", "socnet")
+	dbPassword := getEnv("DB_PASSWORD", "socnet")
+	dbName := getEnv("DB_NAME", "socnet")
+	dbSSLMode := getEnv("DB_SSL_MODE", "disable")
+
+	// Формирование строки подключения
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		dbHost, dbPort, dbUser, dbPassword, dbName, dbSSLMode)
+
 	// Подключение к базе данных
-	db, err := sql.Open("postgres", "host=localhost port=5444 user=socnet password=socnet dbname=socnet sslmode=disable")
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
@@ -53,4 +67,13 @@ func main() {
 
 	// Запуск сервера
 	r.Run(":8787")
+}
+
+// Вспомогательная функция для получения переменных окружения с fallback-значением
+func getEnv(key, fallback string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	return value
 }

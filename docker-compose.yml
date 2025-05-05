@@ -15,7 +15,7 @@ services:
     restart: always
     environment:
       - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=5444
       - POSTGRES_DB=socnet
       - POSTGRES_USER=socnet
       - POSTGRES_PASSWORD=socnet
@@ -28,6 +28,7 @@ services:
       - socnet-db1:/var/lib/postgresql/data
     ports:
       - "5444:5432"
+
   migration:
     image: migrate/migrate:4
     read_only: true
@@ -45,6 +46,23 @@ services:
       - POSTGRES_PASSWORD=socnet
     volumes:
       - ./migrations:/migrations
+    depends_on:
+      - db
+    links:
+      - db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=socnet
+      - DB_USER=socnet
+      - DB_PASSWORD=socnet
+    ports:
+      - "8787:8787"
     depends_on:
       - db
     links:
