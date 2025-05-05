@@ -26,16 +26,21 @@ func Register(db *sql.DB) gin.HandlerFunc {
 		}
 
 		// Вставка пользователя в базу данных
-		_, err := db.Exec(`
+		rows := db.QueryRow(`
             INSERT INTO users (first_name, second_name, birthdate, gender, biography, city, password)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
+			RETURNING id
         `, req.FirstName, req.SecondName, req.Birthdate, req.Gender, req.Biography, req.City, req.Password)
+
+		var id int
+		err := rows.Scan(&id)
+
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read newly created user's id"})
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
+		c.JSON(http.StatusOK, gin.H{"message": "User registered successfully", "user_id": id})
 	}
 }
 

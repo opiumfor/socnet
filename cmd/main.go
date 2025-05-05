@@ -14,8 +14,8 @@ import (
 
 func main() {
 	// Чтение переменных окружения для подключения к базе данных
-	dbHost := getEnv("DB_HOST", "postgres")
-	dbPort := getEnv("DB_PORT", "5432")
+	dbHost := getEnv("DB_HOST", "localhost")
+	dbPort := getEnv("DB_PORT", "5444")
 	dbUser := getEnv("DB_USER", "socnet")
 	dbPassword := getEnv("DB_PASSWORD", "socnet")
 	dbName := getEnv("DB_NAME", "socnet")
